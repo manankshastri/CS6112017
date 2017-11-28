@@ -1,5 +1,4 @@
 // ConcreteSyntax.java
-
 // Implementation of the Scanner for JAY
 
 // This code DOES NOT implement a scanner for JAY. You have to complete
@@ -13,12 +12,8 @@ import java.io.IOException;
 
 public class TokenStream {
 
-	// CHECK THE WHOLE CODE
-
 	private boolean isEof = false;
-
 	private char nextChar = ' '; // next character in input stream
-
 	private BufferedReader input;
 
 	// This function was added to make the main.
@@ -47,22 +42,20 @@ public class TokenStream {
 		// First check for whitespace and bypass it.
 		skipWhiteSpace();
 
-		// Then check for a comment, and bypass it
-		// but remember that / is also a division operator.
-
 		while (nextChar == '/' ) {
 			// Changed if to while to avoid the 2nd line being printed when there are two comment lines in a row.
 			nextChar = readChar();
-			if (nextChar == '/' ) { // If / is followed by another /
-				// skip rest of line - it's a comment.
-				// TO BE COMPLETED
-				// look for <cr>, <lf>, <ff>
+			if (nextChar == '/' ) {
+				// check if its a comment- "//"
 				nextChar = readChar();
+				// bypass the line within the comment
+				// check for \n,\r,\f
+				//keep reading the nextChar till the end of line
 				while (!isEndOfLine(nextChar) && !isEof) {
 					nextChar = readChar();
 				}
-				nextChar = readChar();
-
+				//indicate the line - comment
+				t.setValue("Comment");
 			}
 			else {
 				// A slash followed by a backslash is an AND operator (/\).
@@ -79,8 +72,7 @@ public class TokenStream {
 			}
 		}
 
-		// Then check for an operator; recover 2-character operators
-		// as well as 1-character ones.
+		//check for operator - 1 and 2 character operators
 		if (isOperator(nextChar)) {
 			t.setType("Operator");
 			t.setValue(t.getValue() + nextChar);
@@ -119,7 +111,6 @@ public class TokenStream {
 					return t;
 				case 92: // look for the OR operator, \/
 					nextChar = readChar();
-					// TO BE COMPLETED
 					if (nextChar == '/')
 						t.setValue(t.getValue() + nextChar);
 					return t;
@@ -163,28 +154,26 @@ public class TokenStream {
 			}
 		}
 
-		// Then check for a separator.
+		// Check for a separator.
 		if (isSeparator(nextChar)) {
 			t.setType("Separator");
 			t.setValue(t.getValue() + nextChar);
 			nextChar = readChar();
-			// TO BE COMPLETED
 			return t;
 		}
 
-		// Then check for an identifier, keyword, boolean or literal.
+		// Check for identifier, keyword, boolean or literal.
 		if (isLetter(nextChar)) {
-			// get an identifier
+			// Identifier
 			t.setType("Identifier");
 			while ( (isLetter(nextChar)  || isDigit(nextChar)) ) {
 				t.setValue(t.getValue() + nextChar);
 				nextChar = readChar();
-				//return t;
 			}
-			// now see if this is a keyword
+			// Check if its a keyword
 			if (isKeyword(t.getValue()))
 				t.setType("Keyword");
-
+			// Check if its a boolean
 			if (isBoolean(t.getValue()))
 				t.setType("Boolean");
 
@@ -192,7 +181,8 @@ public class TokenStream {
 			return t;
 		}
 
-		if (isDigit(nextChar)) { // check for integers
+		if (isDigit(nextChar)) { 
+			// Check for integers
 			t.setType("Integer-Literal");
 			while (isDigit(nextChar)) {
 				t.setValue(t.getValue() + nextChar);
@@ -253,7 +243,6 @@ public class TokenStream {
 	}
 
 	private boolean isKeyword(String s) {
-		// TO BE COMPLETED
 		return (s.equals("boolean") || s.equals("else") || s.equals("if") || s.equals("int") || s.equals("main") || s.equals("void") || s.equals("while"));
 	}
 
@@ -282,7 +271,6 @@ public class TokenStream {
 	}
 
 	private boolean isSeparator(char c) {
-		// TO BE COMPLETED
 		if(c=='(' || c==')' || c=='{' || c=='}' || c==';' || c==',')
 			return true;
 		else
@@ -290,7 +278,6 @@ public class TokenStream {
 	}
 
 	private boolean isOperator(char c) {
-		// TO BE COMPLETED
 		if(c=='=' || c=='+' || c=='-' || c=='*' || c=='/' || c=='<' || c=='>' || c=='!' || c=='|' || c=='&')
 			return true;
 		else
@@ -302,7 +289,6 @@ public class TokenStream {
 	}
 
 	private boolean isDigit(char c) {
-		// TO BE COMPLETED
 		if (c =='0' || c=='1' || c=='2' || c=='3' || c=='4' || c=='5' || c=='6' || c=='7' || c=='8' || c=='9')
 			return true;
 		else
