@@ -4,7 +4,7 @@
  */
 public class ScannerDemo {
 
-	private static String file1 = "E:\\MANANK\\PACE\\PRINC OF PROG LANG\\ParserScannerOriginal\\src\\prog2.jay";
+	private static String file1 = "E:\\ParserScannerOriginal\\src\\prog2.jay";
 	private static int counter = 1;
 
 	public static void main(String args[]) {
@@ -13,11 +13,8 @@ public class ScannerDemo {
 		System.out.println(file1);
 
 		while (!ts.isEndofFile()) {
-			// TO BE COMPLETEDs
-			//while()
 			System.out.println("Token " + counter + " - " + ts.nextToken());
 			counter++;
-
 		}
 	}
 }
