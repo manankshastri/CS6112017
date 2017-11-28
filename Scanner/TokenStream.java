@@ -87,6 +87,7 @@ public class TokenStream {
 			switch (nextChar) {
 				case '<':
 					nextChar = readChar();
+					//check for <=
 					if (nextChar == '=') {
 						t.setValue(t.getValue() + nextChar);
 						nextChar = readChar();
@@ -94,6 +95,7 @@ public class TokenStream {
 					return t;
 				case '>':
 					nextChar = readChar();
+					//check for >=
 					if (nextChar == '=') {
 						t.setValue(t.getValue() + nextChar);
 						nextChar = readChar();
@@ -101,15 +103,15 @@ public class TokenStream {
 					return t;
 				case '!':
 					nextChar = readChar();
+					//check for !=
 					if (nextChar == '=') {
 						t.setValue(t.getValue() + nextChar);
 						nextChar = readChar();
 					}
 					return t;
 				case '=':
-					// look for <=, >=, !=, ==
 					nextChar = readChar();
-					// TO BE COMPLETED
+					//check for ==
 					if (nextChar == '=') {
 						t.setValue(t.getValue() + nextChar);
 						nextChar = readChar();
@@ -123,17 +125,25 @@ public class TokenStream {
 					return t;
 				case '|':
 					nextChar = readChar();
+					//check for ||
 					if (nextChar == '|') {
 						t.setValue(t.getValue() + nextChar);
 						nextChar = readChar();
 					}
+					else {
+						t.setType("Other"); 	// | is not an operator
+					}	
 					return t;
 				case '&':
 					nextChar = readChar();
+					// check for &&
 					if (nextChar == '&'){
 						t.setValue(t.getValue() + nextChar);
 						nextChar = readChar();
 					}
+					else {
+						t.setType("Other");	//& is not an operator
+					}	
 					return t;
 				case '+':
 					nextChar = readChar();
@@ -281,7 +291,7 @@ public class TokenStream {
 
 	private boolean isOperator(char c) {
 		// TO BE COMPLETED
-		if(c=='=' || c=='+' || c=='-' || c=='*' || c=='/' || c=='<' || c=='>' || c=='!' )
+		if(c=='=' || c=='+' || c=='-' || c=='*' || c=='/' || c=='<' || c=='>' || c=='!' || c=='|' || c=='&')
 			return true;
 		else
 			return false;
