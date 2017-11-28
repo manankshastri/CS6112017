@@ -1,4 +1,4 @@
 # CS6112017
-GitHub Tutorial;
-HomeWork II
-Scanner Assignment
+|GitHub Tutorial|
+ |HomeWork II|
+ |Scanner Assignment|
