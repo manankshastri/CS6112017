@@ -47,15 +47,13 @@ public class TokenStream {
 			nextChar = readChar();
 			if (nextChar == '/' ) {
 				// check if its a comment- "//"
-				nextChar = readChar();
 				// bypass the line within the comment
 				// check for \n,\r,\f
-				//keep reading the nextChar till the end of line
-				while (!isEndOfLine(nextChar) && !isEof) {
+				while (nextChar!=10 && nextChar!=12 && nextChar!=13 && nextChar!=0) {
 					nextChar = readChar();
 				}
-				//indicate the line - comment
-				t.setValue("Comment");
+				nextChar = readChar();
+				skipWhiteSpace();
 			}
 			else {
 				// A slash followed by a backslash is an AND operator (/\).
